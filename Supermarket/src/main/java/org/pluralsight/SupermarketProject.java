@@ -6,10 +6,12 @@ public class SupermarketProject {
     private static boolean isDone = false; //global boolean will end the program when true
     static Scanner scanner = new Scanner(System.in);
 
-    private static String selectionMsg = "Greg's Supermarket has the following items";
+    private static String selectionMsg = "Greg's Supermarket has the following items\n";
     private static String receiptMsg = "Printin your receipt...";
+    private static String wrongCommandMsg = "I'm sorry, I don't understand that command, please try again.\n";
+    private static String checkoutMsg = "Thank you shopping at Greg's supermarket! Please come again!\n";
+    private static String welcomeMsg = "Welcome to Greg's supermarket!\n";
 
-    private static String welcomePrompt = "Welcome to Greg's supermarket!";
     private static String mainMenuPrompt = "Possible commands:\n  (B)rowse items\n  (P)rint receipt\n  (Q)uit\nType command: ";
     private static String browsingPrompt = "Possible commands:\n  (A)dd to shopping cart - A <item-name> <quantity>\n  (R)eturn to main menu\n  (Q)uit\nType command: ";
     private static String receiptPrompt = "Possible commands:\n  (C)check out\n (R)eturn to main menu\n  (Q)uit\nType command: ";
@@ -30,7 +32,7 @@ public class SupermarketProject {
     static int shoppingCartIndex = 0;
 
     public static void main(String[] args) {
-        System.out.println(welcomePrompt);
+        System.out.println(welcomeMsg);
         while(!isDone) {
             char command = getCharInput(scanner, mainMenuPrompt);
             switch(command) {
@@ -44,7 +46,7 @@ public class SupermarketProject {
                     enableQuitProgram();
                     break;
                 default:
-                    System.out.println("I'm sorry, I don't understand that command, please try again.\n");
+                    System.out.println();
             }
         }
     }
@@ -75,13 +77,12 @@ public class SupermarketProject {
                 }
 
                 int quantity = tokens.length == 3 ? Integer.parseInt(tokens[2]) : 1;
-                StringBuilder sb = new StringBuilder("%15s x%02d $%5.2f\n,");
+                StringBuilder sb = new StringBuilder("%-15s x%02d $%5.2f\n,");
                 sb.append(listOfItems[i] + ",");
                 sb.append(quantity + ",");
                 sb.append(priceOfItems[i] * quantity);
                 shoppingCart[shoppingCartIndex] = sb.toString();
                 shoppingCartIndex++;
-
                 break; //exit for loop we already found item
             }
         }
@@ -108,7 +109,7 @@ public class SupermarketProject {
                     enableQuitProgram();
                     return; //force quit function and return to main
                 default:
-                    System.out.println("I'm sorry, I don't understand that command, please try again.\n");
+                    System.out.println(wrongCommandMsg);
             }
         }
     }
@@ -128,22 +129,22 @@ public class SupermarketProject {
             System.out.printf(tokens[0], tokens[1], quantity, price);
         }
         System.out.println("--------------------------"); //15 1 3 1 6
-        System.out.printf("%15s $11.2f\n", "Total", total);
+        System.out.printf("%-15s $%.2f\n", "Total", total);
 
         while(true) {
             char command = getCharInput(scanner, receiptPrompt);
             switch(command) {
                 case 'C':
-                    System.out.println("You want to check out\n");
+                    System.out.println(checkoutMsg);
                     break;
                 case 'R':
-                    System.out.println("You want to return to main menu\n");
-                    break;
+                    System.out.println();
+                    return;
                 case 'Q':
-                    System.out.println("You want to quit the program\n");
-                    break;
+                    enableQuitProgram();
+                    return;
                 default:
-                    System.out.println("I'm sorry, I don't understand that command, please try again.\n");
+                    System.out.println(wrongCommandMsg);
             }
         }
     }
