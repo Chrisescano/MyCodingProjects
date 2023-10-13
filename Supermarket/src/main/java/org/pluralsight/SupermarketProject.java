@@ -67,14 +67,20 @@ public class SupermarketProject {
 
         for(int i = 0; i < listOfItems.length; i++) {
             if(listOfItems[i].equalsIgnoreCase(tokens[1])) {
-                if(shoppingCartIndex == 29) {
+                if(shoppingCartIndex == shoppingCart.length) {
                     System.out.println("Oops! Shopping cart is full, can't add any more items");
                     return;
                 }
 
                 int quantity = tokens.length == 3 ? Integer.parseInt(tokens[2]) : 1;
-                shoppingCart[shoppingCartIndex] = i + " " + quantity;
+                StringBuilder sb = new StringBuilder("%15s %02d %5.2f,");
+                sb.append(listOfItems[i] + ",");
+                sb.append("x" + quantity + ",");
+                sb.append(priceOfItems[i] * quantity);
+                shoppingCart[shoppingCartIndex] = sb.toString();
                 shoppingCartIndex++;
+
+                break; //exit for loop we already found item
             }
         }
     }
@@ -95,10 +101,10 @@ public class SupermarketProject {
                     break;
                 case 'R':
                     System.out.println();
-                    return;
+                    return; //force quit function and return to main
                 case 'Q':
                     enableQuitProgram();
-                    break;
+                    return; //force quit function and return to main
                 default:
                     System.out.println("I'm sorry, I don't understand that command, please try again.\n");
             }
