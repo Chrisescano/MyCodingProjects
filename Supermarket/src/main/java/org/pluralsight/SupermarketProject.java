@@ -7,10 +7,12 @@ public class SupermarketProject {
     static Scanner scanner = new Scanner(System.in);
 
     private static String selectionMsg = "Greg's Supermarket has the following items";
+    private static String receiptMsg = "Printin your receipt...";
 
     private static String welcomePrompt = "Welcome to Greg's supermarket!";
     private static String mainMenuPrompt = "Possible commands:\n  (B)rowse items\n  (P)rint receipt\n  (Q)uit\nType command: ";
     private static String browsingPrompt = "Possible commands:\n  (A)dd to shopping cart - A <item-name> <quantity>\n  (R)eturn to main menu\n  (Q)uit\nType command: ";
+    private static String receiptPrompt = "Possible commands:\n  (C)check out\n (R)eturn to main menu\n  (Q)uit\nType command: ";
 
     static String[] listOfItems = {
             "Apple", "Banana", "Coconut", "Doughnuts", "Eggs", "Fig", "Granola",
@@ -36,7 +38,7 @@ public class SupermarketProject {
                     browsingMenu();
                     break;
                 case 'P':
-                    System.out.println("You want to print your receipt\n");
+                    printReceiptMenu();
                     break;
                 case 'Q':
                     enableQuitProgram();
@@ -73,9 +75,9 @@ public class SupermarketProject {
                 }
 
                 int quantity = tokens.length == 3 ? Integer.parseInt(tokens[2]) : 1;
-                StringBuilder sb = new StringBuilder("%15s %02d %5.2f,");
+                StringBuilder sb = new StringBuilder("%15s x%02d $%5.2f\n,");
                 sb.append(listOfItems[i] + ",");
-                sb.append("x" + quantity + ",");
+                sb.append(quantity + ",");
                 sb.append(priceOfItems[i] * quantity);
                 shoppingCart[shoppingCartIndex] = sb.toString();
                 shoppingCartIndex++;
@@ -109,6 +111,40 @@ public class SupermarketProject {
                     System.out.println("I'm sorry, I don't understand that command, please try again.\n");
             }
         }
+    }
 
+    public static void printReceiptMenu() {
+        System.out.println(receiptMsg);
+        double total = 0;
+
+        //[0] - string format, [1] - item name, [2] - quantity, [3] - price
+        for(String shoppingCartEntry: shoppingCart) {
+            if(shoppingCartEntry == null) break;
+
+            String[] tokens = shoppingCartEntry.split(",");
+            int quantity = Integer.parseInt(tokens[2]);
+            double price = Double.parseDouble(tokens[3]);
+            total += price;
+            System.out.printf(tokens[0], tokens[1], quantity, price);
+        }
+        System.out.println("--------------------------"); //15 1 3 1 6
+        System.out.printf("%15s $11.2f\n", "Total", total);
+
+        while(true) {
+            char command = getCharInput(scanner, receiptPrompt);
+            switch(command) {
+                case 'C':
+                    System.out.println("You want to check out\n");
+                    break;
+                case 'R':
+                    System.out.println("You want to return to main menu\n");
+                    break;
+                case 'Q':
+                    System.out.println("You want to quit the program\n");
+                    break;
+                default:
+                    System.out.println("I'm sorry, I don't understand that command, please try again.\n");
+            }
+        }
     }
 }
