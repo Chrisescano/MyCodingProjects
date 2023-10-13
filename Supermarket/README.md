@@ -9,6 +9,7 @@ You are developing a Java CLI program for a supermarket of your choice. The mana
 
 As the developer you have creative freedom on how to display information, but here are some options:
 The main can look like this:
+
 Possible commands:
   (B)rowse
   (P)rint
@@ -16,10 +17,10 @@ Possible commands:
 Type command:
 
 Browse menu can look like this:
+
 <Supermarket name> has the following items:
 Apples   $1.00
 Banana   $2.20
-   ...
 
 Possible commands:
   (A)dd to shopping cart - A <item-name> <quantity>
